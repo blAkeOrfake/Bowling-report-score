@@ -1,0 +1,8 @@
+table {
+    empty-cells: show;
+    margin: auto;
+}
+
+.center {
+    text-align: center
+}
