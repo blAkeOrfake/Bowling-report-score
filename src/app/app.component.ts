@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FileService } from './file.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -53,31 +54,51 @@ export class AppComponent {
       let result = 0;
       let frameScores = [];
 
+      for (let n = 0; n < players[i].length; n++){
+        if (players[i][n] === 10 && players[i].length <= 20){
+          players[i].splice(n + 1, 0, 0);
+        }
+      }
+
       while(players[i].length) {
         frameScores.push(players[i].splice(0,2))
       };
-
+      
       if (frameScores[10]) {
         frameScores[9].push(frameScores[10][0]);
         frameScores.pop();
       }
-  
-      for(let currentRound = 0; currentRound < 10; currentRound++){
-
-          if(frameScores[currentRound][0] === 10) { // STRIKE
-            if( currentRound === 9) {
-              result += (10 + frameScores[currentRound][1] + frameScores[currentRound][2]);
+      
+      for (let currentRound = 0; currentRound < 10; currentRound++) {
+        if (frameScores[currentRound][0] === 10) {
+            if (currentRound === 9) {
+              if (frameScores[currentRound][1] === 10) {
+                result += (10 + (frameScores[currentRound][1] + frameScores[currentRound][2]));
+              } else {
+                result += (10 + frameScores[currentRound][1] + frameScores[currentRound][2]);
+              }
             } else {
-              result += (10 + (frameScores[currentRound + 1][0] + frameScores[currentRound + 1][1]));
+              if (frameScores[currentRound + 1][0] === 10) {
+                result += (10 + (frameScores[currentRound + 1][0] + frameScores[currentRound + 1][1]));
+
+              } else if (frameScores[currentRound + 1][0] === 10 && frameScores[currentRound + 2][0] === 10){
+                result += (10 + (frameScores[currentRound + 1][0] + frameScores[currentRound + 2][0]));
+
+              } else {
+                result += (10 + (frameScores[currentRound + 1][0] + frameScores[currentRound + 1][1]));
+              }
+
             }
-  
-          } else if (frameScores[currentRound][0] + frameScores[currentRound][1] === 10) { // SPARE
+
+          } else if (frameScores[currentRound][0] + frameScores[currentRound][1] === 10) {
+
             if ( currentRound === 9) {
               result += (10 + frameScores[currentRound][2]);
+
             } else {
               result += (10 + frameScores[currentRound + 1][0]);
             }
-            
+
           } else {
             result += (frameScores[currentRound][0] + frameScores[currentRound][1]);
           }
@@ -87,3 +108,4 @@ export class AppComponent {
     }
   }
 }
+
