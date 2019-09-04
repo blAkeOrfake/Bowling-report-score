@@ -72,11 +72,7 @@ export class AppComponent {
       for (let currentRound = 0; currentRound < 10; currentRound++) {
         if (frameScores[currentRound][0] === 10) {
             if (currentRound === 9) {
-              if (frameScores[currentRound][1] === 10) {
-                result += (10 + (frameScores[currentRound][1] + frameScores[currentRound][2]));
-              } else {
                 result += (10 + frameScores[currentRound][1] + frameScores[currentRound][2]);
-              }
             } else {
               if (frameScores[currentRound + 1][0] === 10) {
                 result += (10 + (frameScores[currentRound + 1][0] + frameScores[currentRound + 1][1]));
@@ -91,14 +87,12 @@ export class AppComponent {
             }
 
           } else if (frameScores[currentRound][0] + frameScores[currentRound][1] === 10) {
-
             if ( currentRound === 9) {
               result += (10 + frameScores[currentRound][2]);
 
             } else {
               result += (10 + frameScores[currentRound + 1][0]);
             }
-
           } else {
             result += (frameScores[currentRound][0] + frameScores[currentRound][1]);
           }
